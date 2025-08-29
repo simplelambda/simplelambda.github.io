@@ -1,0 +1,97 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SimpleLambda</title>
+
+    <meta name="description" content="SimpleLambda official site. We are building something new—check back soon." />
+
+    <meta property="og:title" content="SimpleLambda" />
+    <meta property="og:description" content="We are building something new—check back soon." />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" href="Resources/icon_reduced_white.png" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @keyframes floaty { 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+    </style>
+    </head>
+
+    <body class="min-h-screen bg-neutral-950 text-neutral-100">
+    <main class="max-w-3xl mx-auto px-6 py-24 text-center">
+        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-sky-500/20 ring-1 ring-sky-500/30 mx-auto"
+            style="animation: floaty 3s ease-in-out infinite;">
+        <img src="Resources/icon_reduced_white.png" width="65px" height="65px"/>
+        </div>
+
+        <h1 class="mt-6 text-4xl md:text-5xl font-bold tracking-tight">SimpleLambda</h1>
+
+        <!-- EN -->
+        <div id="en" class="mt-4 text-neutral-300">
+        <p class="leading-relaxed">
+            Our website is under construction. We’re crafting something we think you’ll love.
+        </p>
+        <p class="mt-2">Follow our progress and check back soon.</p>
+        </div>
+
+        <!-- ES -->
+        <div id="es" class="mt-4 text-neutral-300 hidden">
+        <p class="leading-relaxed">
+            Nuestra web está en construcción. Estamos preparando algo que te va a encantar.
+        </p>
+        <p class="mt-2">Síguenos y vuelve pronto.</p>
+        </div>
+
+        <div class="mt-8 flex items-center justify-center gap-3">
+        <a href="https://github.com/simplelambda" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 transition">GitHub</a>
+        <a href="mailto:contact@simplelambda.com" class="px-4 py-2 rounded-xl border border-neutral-700 hover:border-neutral-500 transition">Contact</a>
+        </div>
+
+        <!-- Selector idioma -->
+        <div class="mt-8 text-sm text-neutral-400 flex items-center justify-center gap-2">
+        <span>Language:</span>
+        <button id="btn-en" class="underline underline-offset-4 hover:text-neutral-200">EN</button>
+        <span>·</span>
+        <button id="btn-es" class="underline underline-offset-4 hover:text-neutral-200">ES</button>
+        </div>
+
+        <footer class="mt-12 text-xs text-neutral-500">
+        © <span id="year"></span> SimpleLambda
+        </footer>
+    </main>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Language -> ?lang=en|es > localStorage > navigator.language
+        function pickInitialLang() {
+            const url = new URL(window.location.href);
+            const q = url.searchParams.get('lang');
+            const stored = localStorage.getItem('sl_lang');
+            const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+
+            if (q === 'en' || q === 'es') return q;
+            if (stored === 'en' || stored === 'es') return stored;
+            if (nav.startsWith('es')) return 'es';
+            return 'en';
+        }
+
+        function applyLang(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.getElementById('en').classList.toggle('hidden', lang !== 'en');
+            document.getElementById('es').classList.toggle('hidden', lang !== 'es');
+            localStorage.setItem('sl_lang', lang);
+        }
+
+        const initial = pickInitialLang();
+        applyLang(initial);
+        document.getElementById('btn-en').addEventListener('click', () => applyLang('en'));
+        document.getElementById('btn-es').addEventListener('click', () => applyLang('es'));
+    </script>
+    </body>
+</html>
